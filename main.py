@@ -1,10 +1,12 @@
+import typing
+
 from PIL import Image, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def main() -> None:
-    image = Image.open("cspace.png")
+    image = typing.cast(Image.Image, Image.open("cspace.png"))
     image = ImageOps.grayscale(image)
 
     # convert to NumPy image
