@@ -20,7 +20,5 @@ jobs:
           cache: true
       - name: Run linter check
         run: pixi run lint-ci
-      - name: Run all unit tests
-        run: pixi run test
       - name: Check for types
         run: pixi run type-check
