@@ -47,6 +47,27 @@ def main() -> None:
 
     # RRT
     rrt = RRTAlgorithm(grid, step_size, start, goal)
+    for i in range(rrt.number_of_iterations):
+        rrt.reset_nearest_values()
+        print(f"Iteration: {i}")
+        point = rrt.sample_a_point()
+        rrt.find_nearest(rrt.random_tree, point)
+        new_point = rrt.steer_to_point(rrt.nearest_node, point)
+        is_obstacle_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
+        if not is_obstacle_between_points:
+            rrt.add_child(new_point)
+            plt.pause(0.10)
+            plt.plot([rrt.nearest_node.location[0], new_point[0]], [rrt.nearest_node.location[1], new_point[1]], "go", linestyle="--")
+            if rrt.is_goal_found():
+                rrt.add_child(goal)
+                print("Goal found")
+                break
+
+    rrt.retrace_path(rrt.goal)
+    rrt.waypoints.insert(0, start)
+    print(f"Number of waypoints: {rrt.number_of_waypoints}")
+    print(f"Path distance (m): {rrt.path_distance}")
+    print(f"Waypoints: {rrt.waypoints}")
 
 
 if __name__ == "__main__":

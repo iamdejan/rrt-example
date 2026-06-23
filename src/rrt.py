@@ -27,20 +27,16 @@ class RRTAlgorithm:
         self.rho = step_size
         self.path_distance = 0
         self.nearest_distance: float = INFINITY
-        self.number_of_waypoitns = 0
+        self.number_of_waypoints = 0
         self.waypoints: list[Coordinate] = []
         self.number_of_iterations = number_of_iterations
 
 
     # add the point to the nearest goal and add goal when reached
     def add_child(self, location: Coordinate) -> None:
-        if location[0] == self.goal.location[0]:
-            cast(Node, self.nearest_node).children.append(self.goal)
-            self.goal.parent = self.nearest_node
-        else:
-            temp_node = Node(location=location)
-            temp_node.parent = self.nearest_node
-            cast(Node, self.nearest_node).children.append(temp_node)
+        temp_node = Node(location=location)
+        temp_node.parent = self.nearest_node
+        cast(Node, self.nearest_node).children.append(temp_node)
 
 
     # sample a random point within grid lines
@@ -119,7 +115,7 @@ class RRTAlgorithm:
             return
         if goal.location[0] == self.random_tree.location[0]:
             return
-        self.number_of_waypoitns += 1
+        self.number_of_waypoints += 1
         current_point = create_coordinate(goal.location[0], goal.location[1])
         self.waypoints.insert(0, current_point)
         self.path_distance += self.rho
