@@ -2,6 +2,9 @@
 
 This is a simple repository for me to learn Rapidly exploring Random Tree (RRT). The reason I need to learn RRT is because I might use it for my final year project.
 
+References:
+- [Motion Planning: Rapidly Exploring Random Trees (RRT): Algorithm Implementation Step by Step!](https://www.youtube.com/watch?v=OXikozpLFGo)
+
 ## Prerequisites
 
 Before running this program, ensure you have the following installed:
