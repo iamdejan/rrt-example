@@ -230,13 +230,13 @@ class RRTAlgorithm:
         for child in root.children:
             self.find_nearest(child, point)
 
-    def distance(self, node1: Node, point: Coordinate) -> float:
+    def distance(self, node: Node, point: Coordinate) -> float:
         """
         Calculate the Euclidean distance between a node and a coordinate.
 
         Parameters
         ----------
-        node1 : Node
+        node : Node
             The node.
         point : Coordinate
             The 2D coordinate.
@@ -247,7 +247,7 @@ class RRTAlgorithm:
             The Euclidean distance.
         """
         # Compute the vector difference between the node's location and the target coordinate.
-        difference = create_vector(node1.location[0] - point[0], node1.location[1] - point[1])
+        difference = create_vector(node.location[0] - point[0], node.location[1] - point[1])
         # Return the magnitude/length of the difference vector.
         return float(math.sqrt(difference[0]**2 + difference[1]**2))
 
