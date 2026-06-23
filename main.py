@@ -51,7 +51,7 @@ def main() -> None:
         rrt.reset_nearest_values()
         sampled_point = rrt.sample_a_point()
         rrt.find_nearest(rrt.random_tree, sampled_point)
-        rrt.nearest_node = typing.cast(Node, rrt.nearest_node) # temporary measure
+        rrt.nearest_node = typing.cast(Node, rrt.nearest_node)
         new_point = rrt.steer_to_point(rrt.nearest_node, sampled_point)
         does_obstacle_lie_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
         print(f"iteration {i} -> sampled_point = {sampled_point}, rrt.nearest_node.location = {rrt.nearest_node.location}, does_obstacle_lie_between_points = {does_obstacle_lie_between_points}")

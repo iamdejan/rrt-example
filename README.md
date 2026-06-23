@@ -56,9 +56,10 @@ Root/
 ├── .kilocode/              # Kilo Code assistant configuration
 │   └── mcp.json
 ├── src/                    # Source code directory
-│   └── __init__.py         # Source package initialization
-└── tests/                  # Test directory
-    └── test_main.py        # Unit tests
+│   ├── __init__.py         # Source package initialization
+│   ├── customtype.py       # Custom Coordinate and Vector type definitions
+│   ├── rrt.py              # Rapidly-exploring Random Tree (RRT) algorithm implementation
+│   └── tree.py             # N-ary search tree node structure
 ```
 
 This section explains the purpose of each file in the repository:
@@ -84,7 +85,9 @@ This section explains the purpose of each file in the repository:
 | File | Description |
 |------|-------------|
 | [`src/__init__.py`](src/__init__.py) | Source package initialization file that marks the directory as a Python package. |
-| [`tests/test_main.py`](tests/test_main.py) | Unit tests for the main module. |
+| [`src/customtype.py`](src/customtype.py) | Defines the type aliases and factory functions for coordinates and vectors. |
+| [`src/rrt.py`](src/rrt.py) | Implements the main RRT path planning algorithm, including sampling, steering, nearest-neighbor searching, and collision checking. |
+| [`src/tree.py`](src/tree.py) | Defines the Node class used to represent tree nodes in the n-ary path planning search tree. |
 
 ### Configuration Directories
 
