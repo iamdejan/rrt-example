@@ -3,8 +3,9 @@ import typing
 from PIL import Image, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Circle
 
-from src.type import Coordinate, create_coordinate
+from src.customtype import Coordinate, create_coordinate
 
 def convert_to_numpy_image(file_name: str) -> np.ndarray:
     image = typing.cast(Image.Image, Image.open(file_name))
@@ -27,7 +28,7 @@ def main() -> None:
     start: Coordinate = create_coordinate(100.0, 100.0)
     goal: Coordinate = create_coordinate(830.0, 610.0)
     step_size = 40
-    goal_region = plt.Circle((goal[0], goal[1]), step_size, color="b", fill=False)
+    goal_region = Circle((goal[0], goal[1]), step_size, color="b", fill=False)
 
     fig = plt.figure()
     plt.title("RRT Algorithm")

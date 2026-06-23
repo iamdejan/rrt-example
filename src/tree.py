@@ -1,17 +1,17 @@
 import math
 import random
-from typing import Optional, Tuple
+from typing import Optional, cast
 
 import numpy as np
 
-from type import Coordinate, Vector, create_coordinate, create_vector
+from src.customtype import Coordinate, Vector, create_coordinate, create_vector
 
 INFINITY = 0x3f3f3f3f
 
 
 # Node class for the n-ary tree.
 class Node:
-    def __init__(self, location: Tuple[float, float] = ()) -> None:
+    def __init__(self, location: Coordinate) -> None:
         self.children: list[Node] = []
         self.parent: Optional[Node] = None
         self.location: Coordinate = location
@@ -21,7 +21,7 @@ class RRTAlgorithm:
     def __init__(
             self,
             grid: np.ndarray,
-            step_size: float,
+            step_size: int,
             start: Coordinate,
             goal: Coordinate,
             number_of_iterations: int=100,
@@ -32,9 +32,9 @@ class RRTAlgorithm:
         self.grid = grid
         self.rho = step_size
         self.path_distance = 0
-        self.nearest_distance = INFINITY
+        self.nearest_distance: float = INFINITY
         self.number_of_waypoitns = 0
-        self.waypoints = []
+        self.waypoints: list[Coordinate] = []
         self.number_of_iterations = number_of_iterations
 
 
@@ -42,12 +42,12 @@ class RRTAlgorithm:
     def add_child(self, location: Coordinate) -> None:
         if location[0] == self.goal.location[0]:
             # TODO dejan: evaluate if this is needed or not.
-            self.nearest_node.children.append(self.goal)
+            cast(Node, self.nearest_node).children.append(self.goal)
             self.goal.parent = self.nearest_node
         else:
             temp_node = Node(location=location)
             temp_node.parent = self.nearest_node
-            self.nearest_node.children.append(temp_node)
+            cast(Node, self.nearest_node).children.append(temp_node)
 
 
     # sample a random point within grid lines
@@ -88,12 +88,12 @@ class RRTAlgorithm:
 
 
     # find the nearest node from a given unconnected point (Euclidean distance)
-    def find_nearest(self, root: Node, point: Node) -> None:
+    def find_nearest(self, root: Node, point: Coordinate) -> None:
         if not root:
             return
         dist = self.distance(root, point)
         if dist <= self.nearest_distance:
-            self.nearest_node = point
+            self.nearest_node = root
             self.nearest_distance = dist
         
         for child in root.children:
@@ -101,8 +101,8 @@ class RRTAlgorithm:
 
 
     # find Euclidean distance between a node and an XY point
-    def distance(self, node1: Coordinate, point: Coordinate):
-        difference = create_vector(node1[0] - point[0], node1[1] - point[1])
+    def distance(self, node1: Node, point: Coordinate) -> float:
+        difference = create_vector(node1.location[0] - point[0], node1.location[1] - point[1])
         norm = math.sqrt(difference[0]**2 + difference[1]**2)
         return norm
 
@@ -115,17 +115,19 @@ class RRTAlgorithm:
 
 
     # reset nearest node and nearest distance
-    def reset_nearest_values(self):
+    def reset_nearest_values(self) -> None:
         self.nearest_node = None
         self.nearest_distance = INFINITY
 
 
     # trace the path from the goal to start
-    def retrace_path(self, goal: Node) -> None:
-        if goal[0] == self.random_tree[0]:
+    def retrace_path(self, goal: Optional[Node]) -> None:
+        if goal is None:
+            return
+        if goal.location[0] == self.random_tree.location[0]:
             return
         self.number_of_waypoitns += 1
-        current_point = create_coordinate(goal[0], goal[1])
+        current_point = create_coordinate(goal.location[0], goal.location[1])
         self.waypoints.insert(0, current_point)
         self.path_distance += self.rho
         self.retrace_path(goal.parent)
