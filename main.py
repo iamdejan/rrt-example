@@ -7,6 +7,7 @@ from matplotlib.patches import Circle
 
 from src.customtype import Coordinate, create_coordinate
 from src.rrt import RRTAlgorithm
+from src.tree import Node
 
 def convert_to_numpy_image(file_name: str) -> np.ndarray:
     image = typing.cast(Image.Image, Image.open(file_name))
@@ -52,13 +53,14 @@ def main() -> None:
         print(f"Iteration: {i}")
         point = rrt.sample_a_point()
         rrt.find_nearest(rrt.random_tree, point)
+        rrt.nearest_node = typing.cast(Node, rrt.nearest_node) # temporary measure
         new_point = rrt.steer_to_point(rrt.nearest_node, point)
         is_obstacle_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
         if not is_obstacle_between_points:
             rrt.add_child(new_point)
             plt.pause(0.10)
             plt.plot([rrt.nearest_node.location[0], new_point[0]], [rrt.nearest_node.location[1], new_point[1]], "go", linestyle="--")
-            if rrt.is_goal_found():
+            if rrt.is_goal_found(new_point):
                 rrt.add_child(goal)
                 print("Goal found")
                 break

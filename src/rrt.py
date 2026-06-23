@@ -47,21 +47,21 @@ class RRTAlgorithm:
 
 
     # steer a distance stepsize from start to end location
-    def steer_to_point(self, start_location: Coordinate, end_location: Coordinate) -> Coordinate:
-        offset = self.rho * self.unit_vector(start_location, end_location)
-        point = create_coordinate(start_location[0] + offset[0], start_location[1] + offset[1])
+    def steer_to_point(self, start_node: Node, end_location: Coordinate) -> Coordinate:
+        offset = self.rho * self.unit_vector(start_node, end_location)
+        point = create_coordinate(start_node.location[0] + offset[0], start_node.location[1] + offset[1])
         point[0] = min(point[0], self.grid.shape[1] - 1)
         point[1] = min(point[1], self.grid.shape[0] - 1)
         return point
 
 
     # check if obstacle lies between start node and end point of the edge
-    def does_obstacle_lie_between(self, start_location: Coordinate, end_location: Coordinate) -> bool:
-        u_hat = self.unit_vector(start_location, end_location)
+    def does_obstacle_lie_between(self, start_node: Node, end_location: Coordinate) -> bool:
+        u_hat = self.unit_vector(start_node, end_location)
         test_point = create_coordinate(0.0, 0.0)
         for i in range(self.rho):
-            test_point[0] = round(start_location[0] + i * u_hat[0])
-            test_point[1] = round(start_location[1] + i * u_hat[1])
+            test_point[0] = round(start_node.location[0] + i * u_hat[0])
+            test_point[1] = round(start_node.location[1] + i * u_hat[1])
             
             # check if test_point lies within obstacle
             if self.grid[test_point[1].astype(np.int64), test_point[0].astype(np.int64)] == 1:
@@ -70,8 +70,8 @@ class RRTAlgorithm:
 
 
     # calculate unit vector for 2 points
-    def unit_vector(self, start_location: Coordinate, end_location: Coordinate) -> Vector:
-        v = create_vector(start_location[0] - end_location[0], start_location[1] - end_location[1])
+    def unit_vector(self, start_node: Node, end_location: Coordinate) -> Vector:
+        v = create_vector(start_node.location[0] - end_location[0], start_node.location[1] - end_location[1])
         norm = math.sqrt(v[0]**2 + v[1]**2)
         return v / norm
 
