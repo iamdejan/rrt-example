@@ -101,14 +101,14 @@ class RRTAlgorithm:
 
 
     # find Euclidean distance between a node and an XY point
-    def distance(self, node1, point):
+    def distance(self, node1: Coordinate, point: Coordinate):
         difference = create_vector(node1[0] - point[0], node1[1] - point[1])
         norm = math.sqrt(difference[0]**2 + difference[1]**2)
         return norm
 
 
     # check if the goal has been found
-    def is_goal_found(self, point) -> bool:
+    def is_goal_found(self, point: Coordinate) -> bool:
         if self.distance(self.goal, point) <= self.rho:
             return True
         return False
