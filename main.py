@@ -44,7 +44,6 @@ def main() -> None:
     plt.ylabel("Y-axis $(m)$")
 
     plt.tight_layout()
-    plt.show()
 
     # RRT
     rrt = RRTAlgorithm(grid, step_size, start, goal)
@@ -54,6 +53,8 @@ def main() -> None:
         point = rrt.sample_a_point()
         rrt.find_nearest(rrt.random_tree, point)
         rrt.nearest_node = typing.cast(Node, rrt.nearest_node) # temporary measure
+        print(f"Sampled point = {point}, Nearest node location = {rrt.nearest_node.location}")
+
         new_point = rrt.steer_to_point(rrt.nearest_node, point)
         is_obstacle_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
         if not is_obstacle_between_points:
@@ -70,6 +71,11 @@ def main() -> None:
     print(f"Number of waypoints: {rrt.number_of_waypoints}")
     print(f"Path distance (m): {rrt.path_distance}")
     print(f"Waypoints: {rrt.waypoints}")
+
+
+    for i in range(len(rrt.waypoints)-1):
+        plt.plot([rrt.waypoints[i][0], rrt.waypoints[i + 1][0]], [rrt.waypoints[i][1], rrt.waypoints[i + 1][1]], "ro", linestyle="--")
+        plt.pause(0.10)
 
 
 if __name__ == "__main__":

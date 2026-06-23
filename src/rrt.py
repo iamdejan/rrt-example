@@ -80,11 +80,12 @@ class RRTAlgorithm:
     def find_nearest(self, root: Node, point: Coordinate) -> None:
         if not root:
             return
+
         dist = self.distance(root, point)
-        if dist <= self.nearest_distance:
+        if dist < self.nearest_distance:
             self.nearest_node = root
             self.nearest_distance = dist
-        
+
         for child in root.children:
             self.find_nearest(child, point)
 
@@ -98,9 +99,7 @@ class RRTAlgorithm:
 
     # check if the goal has been found
     def is_goal_found(self, point: Coordinate) -> bool:
-        if self.distance(self.goal, point) <= self.rho:
-            return True
-        return False
+        return self.distance(self.goal, point) <= self.rho
 
 
     # reset nearest node and nearest distance
