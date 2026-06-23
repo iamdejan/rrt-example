@@ -49,15 +49,13 @@ def main() -> None:
     rrt = RRTAlgorithm(grid, step_size, start, goal)
     for i in range(rrt.number_of_iterations):
         rrt.reset_nearest_values()
-        print(f"Iteration: {i}")
-        point = rrt.sample_a_point()
-        rrt.find_nearest(rrt.random_tree, point)
+        sampled_point = rrt.sample_a_point()
+        rrt.find_nearest(rrt.random_tree, sampled_point)
         rrt.nearest_node = typing.cast(Node, rrt.nearest_node) # temporary measure
-        print(f"Sampled point = {point}, Nearest node location = {rrt.nearest_node.location}")
-
-        new_point = rrt.steer_to_point(rrt.nearest_node, point)
-        is_obstacle_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
-        if not is_obstacle_between_points:
+        new_point = rrt.steer_to_point(rrt.nearest_node, sampled_point)
+        does_obstacle_lie_between_points = rrt.does_obstacle_lie_between(rrt.nearest_node, new_point)
+        print(f"iteration {i} -> sampled_point = {sampled_point}, rrt.nearest_node.location = {rrt.nearest_node.location}, does_obstacle_lie_between_points = {does_obstacle_lie_between_points}")
+        if not does_obstacle_lie_between_points:
             rrt.add_child(new_point)
             plt.pause(0.10)
             plt.plot([rrt.nearest_node.location[0], new_point[0]], [rrt.nearest_node.location[1], new_point[1]], "go", linestyle="--")
