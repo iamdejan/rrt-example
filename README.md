@@ -1,6 +1,6 @@
-# Python Pixi Template
+# RRT Example
 
-This is a template repository for Python-based projects, using Pixi as a version manager for Python.
+This is a simple repository for me to learn Rapidly exploring Random Tree (RRT). The reason I need to learn RRT is because I might use it for my final year project.
 
 ## Prerequisites
 

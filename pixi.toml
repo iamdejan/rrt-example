@@ -18,6 +18,10 @@ mypy = ">=1.19.1,<2"
 ruff = ">=0.15.5,<0.16"
 pytest = ">=9.0.2,<10"
 pre-commit = ">=4.5.1,<5"
+numpy = ">=2.5.0,<3"
+matplotlib = ">=3.11.0,<4"
+pillow = ">=12.2.0,<13"
 
 [pypi-dependencies]
 mcp-pypi = ">=3.0.0, <4"
+pyqt6 = ">=6.9.1, <7"
