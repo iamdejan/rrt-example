@@ -9,6 +9,10 @@ from src.customtype import Coordinate, create_coordinate
 from src.rrt import RRTAlgorithm
 from src.tree import Node
 
+
+PAUSE_DURATION = 0.05
+
+
 def convert_to_numpy_image(file_name: str) -> np.ndarray:
     image = typing.cast(Image.Image, Image.open(file_name))
     image = ImageOps.grayscale(image)
@@ -57,7 +61,7 @@ def main() -> None:
         print(f"iteration {i} -> sampled_point = {sampled_point}, rrt.nearest_node.location = {rrt.nearest_node.location}, does_obstacle_lie_between_points = {does_obstacle_lie_between_points}")
         if not does_obstacle_lie_between_points:
             rrt.add_child(new_point)
-            plt.pause(0.10)
+            plt.pause(PAUSE_DURATION)
             plt.plot([rrt.nearest_node.location[0], new_point[0]], [rrt.nearest_node.location[1], new_point[1]], "go", linestyle="--")
             if rrt.is_goal_found(new_point):
                 rrt.add_child(goal)
@@ -70,10 +74,9 @@ def main() -> None:
     print(f"Path distance (m): {rrt.path_distance}")
     print(f"Waypoints: {rrt.waypoints}")
 
-
     for i in range(len(rrt.waypoints)-1):
         plt.plot([rrt.waypoints[i][0], rrt.waypoints[i + 1][0]], [rrt.waypoints[i][1], rrt.waypoints[i + 1][1]], "ro", linestyle="--")
-        plt.pause(0.10)
+        plt.pause(PAUSE_DURATION)
 
 
 if __name__ == "__main__":
