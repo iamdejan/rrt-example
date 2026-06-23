@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
 from src.customtype import Coordinate, create_coordinate
+from src.rrt import RRTAlgorithm
 
 def convert_to_numpy_image(file_name: str) -> np.ndarray:
     image = typing.cast(Image.Image, Image.open(file_name))
@@ -43,6 +44,9 @@ def main() -> None:
 
     plt.tight_layout()
     plt.show()
+
+    # RRT
+    rrt = RRTAlgorithm(grid, step_size, start, goal)
 
 
 if __name__ == "__main__":
